@@ -22,8 +22,8 @@ Indent width: 2
 Line ending: LF
 Line width: 80
 Trailing commas: None
-Expand: Follow Source
 Bracket spacing: true
+Array wrap: Preserve
 Object wrap: Preserve
 -----
 
@@ -43,9 +43,9 @@ Indent width: 2
 Line ending: LF
 Line width: 80
 Trailing commas: None
-Expand: Always
 Bracket spacing: true
-Object wrap: Preserve
+Array wrap: Expand
+Object wrap: Expand
 -----
 
 ```json

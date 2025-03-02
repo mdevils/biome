@@ -1276,6 +1276,9 @@ impl OverrideSettingPattern {
         {
             options.set_attribute_position(attribute_position);
         }
+        if let Some(object_wrap) = js_formatter.object_wrap {
+            options.set_object_wrap(object_wrap);
+        }
     }
 
     fn apply_overrides_to_json_format_options(&self, options: &mut JsonFormatOptions) {
@@ -1297,8 +1300,11 @@ impl OverrideSettingPattern {
         if let Some(trailing_commas) = json_formatter.trailing_commas {
             options.set_trailing_commas(trailing_commas);
         }
-        if let Some(expand_lists) = json_formatter.expand {
-            options.set_expand(expand_lists);
+        if let Some(array_wrap) = json_formatter.array_wrap {
+            options.set_array_wrap(array_wrap);
+        }
+        if let Some(object_wrap) = json_formatter.object_wrap {
+            options.set_object_wrap(object_wrap);
         }
     }
 

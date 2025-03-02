@@ -11,7 +11,7 @@ pub(crate) struct FormatJsonArrayElementList;
 impl FormatRule<JsonArrayElementList> for FormatJsonArrayElementList {
     type Context = JsonFormatContext;
     fn fmt(&self, node: &JsonArrayElementList, f: &mut JsonFormatter) -> FormatResult<()> {
-        let expand_lists = f.context().options().expand();
+        let expand_lists = f.context().options().array_wrap().is_expand();
         let layout = if expand_lists {
             ArrayLayout::OnePerLine
         } else if can_concisely_print_array_list(node) {

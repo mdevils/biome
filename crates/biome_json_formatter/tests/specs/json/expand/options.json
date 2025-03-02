@@ -2,7 +2,8 @@
   "$schema": "../../../../../../packages/@biomejs/biome/configuration_schema.json",
   "json": {
     "formatter": {
-      "expand": "always"
+      "arrayWrap": "expand",
+      "objectWrap": "expand"
     }
   }
 }

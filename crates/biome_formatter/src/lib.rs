@@ -700,6 +700,7 @@ pub enum ObjectWrap {
     #[default]
     Preserve,
     Collapse,
+    Expand,
 }
 
 impl ObjectWrap {
@@ -710,6 +711,10 @@ impl ObjectWrap {
     pub const fn is_collapse(&self) -> bool {
         matches!(self, Self::Collapse)
     }
+
+    pub const fn is_expand(&self) -> bool {
+        matches!(self, Self::Expand)
+    }
 }
 
 impl FromStr for ObjectWrap {
@@ -718,7 +723,8 @@ impl FromStr for ObjectWrap {
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         match s {
             "preserve"  => Ok(Self::Preserve),
-            "contains"  => Ok(Self::Collapse),
+            "collapse"  => Ok(Self::Collapse),
+            "expand"  => Ok(Self::Expand),
             _ => Err("Value not supported for objectWrap. Supported values are 'preserve' and 'collapse'."),
         }
     }
@@ -729,6 +735,7 @@ impl Display for ObjectWrap {
         match self {
             Self::Preserve => std::write!(f, "Preserve"),
             Self::Collapse => std::write!(f, "Collapse"),
+            Self::Expand => std::write!(f, "Expand"),
         }
     }
 }

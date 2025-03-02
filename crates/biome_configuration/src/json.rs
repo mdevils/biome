@@ -3,7 +3,7 @@ use biome_deserialize_macros::{Deserializable, Merge};
 use biome_formatter::{
     BracketSpacing, IndentStyle, IndentWidth, LineEnding, LineWidth, ObjectWrap,
 };
-use biome_json_formatter::context::{Expand, TrailingCommas};
+use biome_json_formatter::context::{ArrayWrap, TrailingCommas};
 use bpaf::Bpaf;
 use serde::{Deserialize, Serialize};
 
@@ -94,20 +94,20 @@ pub struct JsonFormatterConfiguration {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub trailing_commas: Option<TrailingCommas>,
 
-    /// Whether to expand arrays and objects on multiple lines. When set to `always`, these literals are formatted on multiple lines,
-    /// regardless of length of the list. When formatting `package.json`, Biome will use `always` unless configured otherwise. Defaults to "followSource".
-    #[bpaf(
-        long("json-formatter-expand"),
-        argument("always|follow-source"),
-        optional
-    )]
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub expand: Option<Expand>,
-
     /// Whether to insert spaces around brackets in object literals. Defaults to true.
     #[bpaf(long("json-formatter-bracket-spacing"), argument("true|false"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub bracket_spacing: Option<BracketSpacing>,
+
+    /// Whether to expand arrays and objects on multiple lines. When set to `expand`, these literals are formatted on multiple lines,
+    /// regardless of length of the list. When formatting `package.json`, Biome will use `expand` unless configured otherwise. Defaults to "preserve".
+    #[bpaf(
+        long("json-formatter-array-wrap"),
+        argument("preserve|expand"),
+        optional
+    )]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub array_wrap: Option<ArrayWrap>,
 
     /// Whether to enforce collapsing object literals when possible. Defaults to preserve.
     #[bpaf(long("json-formatter-object-wrap"), argument("preserve|collapse"))]

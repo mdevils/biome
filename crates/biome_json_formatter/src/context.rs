@@ -66,11 +66,21 @@ pub struct JsonFormatOptions {
     line_width: LineWidth,
     /// Print trailing commas wherever possible in multi-line comma-separated syntactic structures. Defaults to "none".
     trailing_commas: TrailingCommas,
-    expand: Expand,
     bracket_spacing: BracketSpacing,
+    array_wrap: ArrayWrap,
     object_wrap: ObjectWrap,
     /// The kind of file
     file_source: JsonFileSource,
+}
+
+impl ArrayWrap {
+    pub const fn is_preserve(&self) -> bool {
+        matches!(self, Self::Preserve)
+    }
+
+    pub const fn is_expand(&self) -> bool {
+        matches!(self, Self::Expand)
+    }
 }
 
 #[derive(Clone, Copy, Debug, Default, Eq, Hash, Deserializable, Merge, PartialEq)]
@@ -116,28 +126,28 @@ impl fmt::Display for TrailingCommas {
     serde(rename_all = "camelCase")
 )]
 #[cfg_attr(feature = "schema", derive(schemars::JsonSchema))]
-pub enum Expand {
-    Always,
+pub enum ArrayWrap {
     #[default]
-    FollowSource,
+    Preserve,
+    Expand,
 }
 
-impl FromStr for Expand {
+impl FromStr for ArrayWrap {
     type Err = String;
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         match s {
-            "always" => Ok(Self::Always),
-            "follow-source" => Ok(Self::FollowSource),
+            "preserve" => Ok(Self::Preserve),
+            "expand" => Ok(Self::Expand),
             _ => Err(std::format!("unknown expand literal: {}", s)),
         }
     }
 }
 
-impl fmt::Display for Expand {
+impl fmt::Display for ArrayWrap {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match self {
-            Expand::Always => std::write!(f, "Always"),
-            Expand::FollowSource => std::write!(f, "Follow Source"),
+            ArrayWrap::Preserve => std::write!(f, "Preserve"),
+            ArrayWrap::Expand => std::write!(f, "Expand"),
         }
     }
 }
@@ -175,13 +185,13 @@ impl JsonFormatOptions {
         self
     }
 
-    pub fn with_expand(mut self, expand: Expand) -> Self {
-        self.expand = expand;
+    pub fn with_bracket_spacing(mut self, bracket_spacing: BracketSpacing) -> Self {
+        self.bracket_spacing = bracket_spacing;
         self
     }
 
-    pub fn with_bracket_spacing(mut self, bracket_spacing: BracketSpacing) -> Self {
-        self.bracket_spacing = bracket_spacing;
+    pub fn with_array_wrap(mut self, array_wrap: ArrayWrap) -> Self {
+        self.array_wrap = array_wrap;
         self
     }
 
@@ -214,17 +224,20 @@ impl JsonFormatOptions {
         self.bracket_spacing = bracket_spacing;
     }
 
-    /// Set `expand_lists`
-    pub fn set_expand(&mut self, expand: Expand) {
-        self.expand = expand;
+    pub fn set_array_wrap(&mut self, array_wrap: ArrayWrap) {
+        self.array_wrap = array_wrap;
     }
 
     pub fn set_object_wrap(&mut self, object_wrap: ObjectWrap) {
         self.object_wrap = object_wrap;
     }
 
-    pub fn bracket_spacing(&self) -> BracketSpacing {
+    pub(crate) fn bracket_spacing(&self) -> BracketSpacing {
         self.bracket_spacing
+    }
+
+    pub(crate) const fn array_wrap(&self) -> ArrayWrap {
+        self.array_wrap
     }
 
     pub fn object_wrap(&self) -> ObjectWrap {
@@ -240,10 +253,6 @@ impl JsonFormatOptions {
 
     pub(crate) fn file_source(&self) -> &JsonFileSource {
         &self.file_source
-    }
-
-    pub(crate) const fn expand(&self) -> bool {
-        matches!(self.expand, Expand::Always)
     }
 }
 
@@ -276,8 +285,8 @@ impl fmt::Display for JsonFormatOptions {
         writeln!(f, "Line ending: {}", self.line_ending)?;
         writeln!(f, "Line width: {}", self.line_width.value())?;
         writeln!(f, "Trailing commas: {}", self.trailing_commas)?;
-        writeln!(f, "Expand: {}", self.expand)?;
         writeln!(f, "Bracket spacing: {}", self.bracket_spacing.value())?;
+        writeln!(f, "Array wrap: {}", self.array_wrap)?;
         writeln!(f, "Object wrap: {}", self.object_wrap)?;
 
         Ok(())

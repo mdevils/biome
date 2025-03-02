@@ -269,6 +269,7 @@ impl Display for RageConfiguration<'_> {
                             {KeyValuePair("Line width", markup!({DisplayOption(formatter_configuration.line_width)}))}
                             {KeyValuePair("Attribute position", markup!({DisplayOption(formatter_configuration.attribute_position)}))}
                             {KeyValuePair("Bracket spacing", markup!({DisplayOption(formatter_configuration.bracket_spacing)}))}
+                            {KeyValuePair("Object wrap", markup!({DisplayOption(formatter_configuration.object_wrap)}))}
                             {KeyValuePair("Includes", markup!({DisplayOption(includes)}))}
                         ).fmt(fmt)?;
 
@@ -290,6 +291,7 @@ impl Display for RageConfiguration<'_> {
                             {KeyValuePair("Line ending", markup!({DisplayOption(javascript_formatter_configuration.line_ending)}))}
                             {KeyValuePair("Line width", markup!({DisplayOption(javascript_formatter_configuration.line_width.map(|lw| lw.value()))}))}
                             {KeyValuePair("Attribute position", markup!({DisplayOption(javascript_formatter_configuration.attribute_position)}))}
+                            {KeyValuePair("Object wrap", markup!({DisplayOption(javascript_formatter_configuration.object_wrap)}))}
                         )
                         .fmt(fmt)?;
 
@@ -303,7 +305,8 @@ impl Display for RageConfiguration<'_> {
                             {KeyValuePair("Line ending", markup!({DisplayOption(json_formatter_configuration.line_ending)}))}
                             {KeyValuePair("Line width", markup!({DisplayOption(json_formatter_configuration.line_width.map(|lw| lw.value()))}))}
                             {KeyValuePair("Trailing Commas", markup!({DisplayOption(json_formatter_configuration.trailing_commas)}))}
-                            {KeyValuePair("Expand lists", markup!({DisplayOption(json_formatter_configuration.expand)}))}
+                            {KeyValuePair("Array wrap", markup!({DisplayOption(json_formatter_configuration.array_wrap)}))}
+                            {KeyValuePair("Object wrap", markup!({DisplayOption(json_formatter_configuration.object_wrap)}))}
                         ).fmt(fmt)?;
 
                         let css_formatter_configuration =

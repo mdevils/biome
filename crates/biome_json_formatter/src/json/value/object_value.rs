@@ -11,8 +11,8 @@ impl FormatNodeRule<JsonObjectValue> for FormatJsonObjectValue {
         let should_insert_space_around_brackets = f.context().options().bracket_spacing().value();
         let should_expand = (f.context().options().object_wrap().is_preserve()
             && node.json_member_list().syntax().has_leading_newline())
-            || f.comments().has_dangling_comments(node.syntax())
-            || f.context().options().expand();
+            || f.context().options().object_wrap().is_expand()
+            || f.comments().has_dangling_comments(node.syntax());
 
         let list = format_with(|f| {
             write!(
