@@ -86,6 +86,7 @@ Formatter:
   Line width:                   120
   Attribute position:           Multiline
   Bracket spacing:              unset
+  Object wrap:                  unset
   Includes:                     **/*.html, **/*.css, **/*.js, **/*.ts, **/*.tsx, **/*.jsx, **/*.json, **/*.md, !configuration-schema.json
 
 JavaScript Formatter:
@@ -103,6 +104,7 @@ JavaScript Formatter:
   Line ending:                  LF
   Line width:                   100
   Attribute position:           unset
+  Object wrap:                  unset
 
 JSON Formatter:
   Enabled:                      true
@@ -111,7 +113,8 @@ JSON Formatter:
   Line ending:                  LF
   Line width:                   100
   Trailing Commas:              unset
-  Expand lists:                 unset
+  Array wrap:                   unset
+  Object wrap:                  unset
 
 CSS Formatter:
   Enabled:                      unset
